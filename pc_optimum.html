@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>PC Optimum – Points</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        background: #f6f6f6;
+        color: #222;
+    }
+    .top-bar {
+        background: #fde7e7;
+        text-align: center;
+        padding: 12px;
+        font-weight: 600;
+    }
+    .tabs {
+        display: flex;
+        justify-content: center;
+        gap: 60px;
+        border-bottom: 1px solid #eee;
+    }
+    .tab {
+        padding: 12px 0;
+        color: #999;
+    }
+    .tab.active {
+        color: #d60000;
+        border-bottom: 2px solid #d60000;
+        font-weight: 600;
+    }
+    .container {
+        background: white;
+        padding: 20px;
+    }
+    .points {
+        font-size: 30px;
+        font-weight: 700;
+    }
+    .subtext {
+        color: #666;
+        font-size: 14px;
+    }
+    .campaign-box {
+        background: #f3edff;
+        border-radius: 10px;
+        padding: 16px;
+        margin: 20px 0 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+    }
+    .campaign-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .campaign-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: #6b3df5;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+    .campaign-title {
+        font-weight: 600;
+        font-size: 15px;
+    }
+    .campaign-subtitle {
+        font-size: 13px;
+        color: #555;
+        margin-top: 3px;
+    }
+    .chevron {
+        color: #999;
+        font-size: 20px;
+    }
+    .section-title {
+        margin-top: 20px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+    .transaction {
+        display: flex;
+        justify-content: space-between;
+        padding: 14px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        overflow-y: auto;
+    }
+    .modal.active {
+        display: block;
+    }
+    .modal-content {
+        background: white;
+        margin: 20px auto;
+        max-width: 600px;
+        border-radius: 12px;
+        position: relative;
+    }
+    .modal-header {
+        background: linear-gradient(135deg, #6b3df5 0%, #8b5cf6 100%);
+        color: white;
+        padding: 24px 20px;
+        border-radius: 12px 12px 0 0;
+        position: relative;
+    }
+    .close-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: rgba(255,255,255,0.2);
+        border: none;
+        color: white;
+        font-size: 24px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .close-btn:hover {
+        background: rgba(255,255,255,0.3);
+    }
+    .modal-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0 0 8px 0;
+    }
+    .modal-subtitle {
+        font-size: 14px;
+        opacity: 0.9;
+    }
+    .comparison-list {
+        padding: 24px 20px;
+    }
+    .comparison-item {
+        display: flex;
+        gap: 12px;
+        padding: 16px 0;
+        border-bottom: 1px solid #eee;
+    }
+    .comparison-item:last-child {
+        border-bottom: none;
+    }
+    .comparison-column {
+        flex: 1;
+    }
+    .comparison-header {
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+    }
+    .normal-aging {
+        color: #059669;
+    }
+    .alzheimers-sign {
+        color: #dc2626;
+    }
+    .comparison-text {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #444;
+    }
+    .points-reward {
+        background: #fef3c7;
+        padding: 16px;
+        margin: 0 20px 20px 20px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 600;
+        color: #92400e;
+    }
+</style>
+</head>
+<body>
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <div class="modal-title">Early Alzheimer's Signs</div>
+            <div class="modal-subtitle">Know the difference between normal aging and warning signs</div>
+        </div>
+        <div class="comparison-list">
+            <div class="comparison-item">
+                <div class="comparison-column">
+                    <div class="comparison-header normal-aging">Normal Aging</div>
+                    <div class="comparison-text">Making a bad decision once in a while</div>
+                </div>
+                <div class="comparison-column">
+                    <div class="comparison-header alzheimers-sign">Alzheimer's Warning</div>
+                    <div class="comparison-text">Poor judgment and decision-making consistently</div>
+                </div>
+            </div>
+
+            <div class="comparison-item">
+                <div class="comparison-column">
+                    <div class="comparison-text">Missing a monthly payment occasionally</div>
+                </div>
+                <div class="comparison-column">
+                    <div class="comparison-text">Problems managing finances or paying bills</div>
+                </div>
+            </div>
+
+            <div class="comparison-item">
+                <div class="comparison-column">
+                    <div class="comparison-text">Forgetting which day it is and remembering it later</div>
+                </div>
+                <div class="comparison-column">
+                    <div class="comparison-text">Losing track of dates, seasons, and passage of time</div>
+                </div>
+            </div>
+
+            <div class="comparison-item">
+                <div class="comparison-column">
+                    <div class="comparison-text">Sometimes forgetting which word to use</div>
+                </div>
+                <div class="comparison-column">
+                    <div class="comparison-text">Trouble having a conversation or finding the right words</div>
+                </div>
+            </div>
+
+            <div class="comparison-item">
+                <div class="comparison-column">
+                    <div class="comparison-text">Losing things from time to time</div>
+                </div>
+                <div class="comparison-column">
+                    <div class="comparison-text">Misplacing items and unable to retrace steps to find them</div>
+                </div>
+            </div>
+
+            <div class="comparison-item">
+                <div class="comparison-column">
+                    <div class="comparison-text">Needing help to use settings on a microwave</div>
+                </div>
+                <div class="comparison-column">
+                    <div class="comparison-text">Difficulty completing familiar tasks at home or work</div>
+                </div>
+            </div>
+
+            <div class="comparison-item">
+                <div class="comparison-column">
+                    <div class="comparison-text">Vision changes related to cataracts</div>
+                </div>
+                <div class="comparison-column">
+                    <div class="comparison-text">New problems with words, vision, or spatial relationships</div>
+                </div>
+            </div>
+
+            <div class="comparison-item">
+                <div class="comparison-column">
+                    <div class="comparison-text">Sometimes feeling weary of work or social obligations</div>
+                </div>
+                <div class="comparison-column">
+                    <div class="comparison-text">Withdrawal from work projects or social activities</div>
+                </div>
+            </div>
+        </div>
+        <div class="points-reward">
+            🎉 You've earned 500 PC Optimum points!
+        </div>
+    </div>
+</div>
+
+<div class="top-bar">Points</div>
+<div class="tabs">
+    <div class="tab">Rewards</div>
+    <div class="tab active">Transactions</div>
+</div>
+<div class="container">
+    <div>Good afternoon, J</div>
+    <div class="points">175,308 pts</div>
+    <div class="subtext">Redeemable value $170</div>
+    <div class="campaign-box" onclick="openModal()">
+        <div class="campaign-left">
+            <div class="campaign-icon">📝</div>
+            <div>
+                <div class="campaign-title">The List Worth Noticing</div>
+                <div class="campaign-subtitle">
+                    Learn early Alzheimer's signs • Earn 500 pts
+                </div>
+            </div>
+        </div>
+        <div class="chevron">›</div>
+    </div>
+    <div class="section-title">Recent transactions</div>
+    <div class="transaction">
+        <div>PC Financial<br><span class="subtext">In the past 45 days</span></div>
+        <div>378,115 pts</div>
+    </div>
+    <div class="transaction">
+        <div>Shoppers Drug Mart<br><span class="subtext">In the past 45 days</span></div>
+        <div>43,235 pts</div>
+    </div>
+</div>
+</body>
+<script>
+function openModal() {
+    document.getElementById('modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('modal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside of it
+document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeModal();
+    }
+});
+</script>
+</html>
